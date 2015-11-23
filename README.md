@@ -8,7 +8,8 @@
 - [ ] Factorial recursivo incompleto de M a N (no de M a 1)
 - [x] Maximo común divisor
 - [ ] Mínimo común múltiplo
-- [x] Potencia
+- [x] Potencia (2^N)
+- [ ] Potencia (n^k)
 - [x] Fibonacci
 - [x] Suma de dígitos de un número
 - [ ] Cualquier suma parcial de una seria entera (por ejemplo suma de los N dobles)
