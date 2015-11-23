@@ -2,12 +2,14 @@
 
 [Pseudocódigos](https://github.com/sebamoralesasd/chupi-diciembler/wiki)
 
-- [ ] N reinas
+- [x] Cambio en monedas 
+- [x] Subsecuencia común más larga
+- [x] N reinas
 - [ ] N caballos
 - [x] Factorial completo (de 1 a N)
 - [ ] Factorial recursivo incompleto de M a N (no de M a 1)
 - [x] Maximo común divisor
-- [ ] Mínimo común múltiplo
+- [x] Mínimo común múltiplo
 - [x] Potencia (2^N)
 - [ ] Potencia (n^k)
 - [x] Fibonacci
@@ -16,7 +18,7 @@
 - [ ] Suma de las n-esimas componentes de un vector
 - [ ] Triángulo de tartaglia/pascal
 - [x] Permutaciones
-- [ ] Búsqueda binaria
+- [x] Búsqueda binaria
 - [ ] Quicksort
 - [ ] Mergesort
 - [ ] Árboles de sintaxis
