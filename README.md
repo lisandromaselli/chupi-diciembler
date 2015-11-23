@@ -1,5 +1,7 @@
 # chupi-diciembler
 
+[Pseudocódigos](https://github.com/sebamoralesasd/chupi-diciembler/wiki)
+
 - [ ] N reinas
 - [ ] N caballos
 - [x] Factorial completo (de 1 a N)
