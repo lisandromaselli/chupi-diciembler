@@ -4,7 +4,7 @@
 
 - [ ] Cambio en monedas 
 - [ ] Subsecuencia común más larga
-- [ ] N reinas
+- [x] N reinas
 - [ ] N caballos
 - [x] Factorial completo (de 1 a N)
 - [ ] Factorial recursivo incompleto de M a N (no de M a 1)
