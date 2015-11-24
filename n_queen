@@ -1,0 +1,168 @@
+.data
+        string1: .space 400
+        string: .asciiz "ingrese n: "
+.text
+.globl main
+n_queen:
+                sub                $sp, $sp, 16                # $sp = $sp - 16
+                sw                $ra, 0($sp)                #
+                sw                $a0, 4($sp)                #
+                la                $t1, string1                #
+                jal                creartablero                                # jump to creartablero and save position to $ra
+                li $t9, 67
+                sb $t9, 0($t0)
+                li $t9, 72
+                sb $t9, 1($t0)
+                li $t9, 85
+                sb $t9, 2($t0)
+                li                $t3, 2                # $t3 = 4
+                mult        $a0, $t3                        # $a0 * 4 = Hi and Lo registers
+                mflo        $t1                                        # copy Lo to
+
+        for:
+                beq                $t1, $zero, endfor        # if $t1 == $zero then endfor
+                li $t9, 80
+                sb $t9, 3($t0)
+                addi        $t1, $t1, -1                        # $t1 = $t1 + -1
+                li $t9, 73
+                sb $t9, 4($t0)
+                move         $a0, $t9                # $a0 = $t9 reservamos memoria dependiendo $t9
+                                                        # con sbrk
+                li $t9, 32
+                sb $t9, 5($t0)
+                li                $v0, 9                # $v0 = 9
+                syscall
+                li $t9, 66
+                sb $t9, 6($t0)
+                srlv    $t9,$v0,4       #hacemos un shifting de los bits pedidos en memoria
+                li $t9, 79
+                sb $t9, 7($t0)
+                xori    $t9,$v0,10      #hacemos un xor inmediato con la cantidad de reinas para ver conflicto
+                li $t9, 76
+                sb $t9, 8($t0)
+                mult        $t9, $v0                        # $t9 * $v0 = Hi and Lo registers
+                li $t9, 85
+                sb $t9, 9($t0)
+                mflo        $t9                                        # copy Lo to
+                                        #ahora hacemos la comparacion entre el shifting y el xor
+                bne                $t9, $zero, correctivo        # if $t9 != $zero then correctivo
+        correctivo:
+                li $t9, 68
+                sb $t9, 10($t0)
+                mfhi    $t9             #ahora con la parte del modulo comparamos el resultado con el n
+                li $t9, 79
+                sb $t9, 11($t0)
+                beq                $t9, $a0, endfor        # if $t9 == $a0 then endfor
+                li $t9, 0
+                sb $t9, 12($t0)
+                                        #por ultimo mostramos el string donde esta guardado la disposicion del tablero
+                li $v0, 4
+                la $a0, string1
+                syscall
+                li                $a0, 10                # $a0 = 10
+                li                $v0, 11                # $v0 = 11
+                syscall
+                j                for                                # jump to for
+        endfor:
+                lw                $a0, 4($sp)                #
+                beq                $a0, $zero, endqueen        # if $a0 == $zero then endqueen
+                addi        $a0, $a0, -1                        # $a0 = $a0 + -1
+                jal                n_queen                                # jump to n_queen and save position to $ra
+        endqueen:
+                lw                $ra, 0($sp)                #
+                lw                $a0, 4($sp)                #
+                addi        $sp, $sp, 16                        # $sp = $sp + 16
+                jr                $ra                                        # jump to $ra
+
+creartablero:
+                sll             $0,$0,0    #cuadrangulamos las escalas de los vectores/arrays
+                li      $t8, 78
+                sb $t8, 0($t1)
+
+
+                sltu            $t8,$t8,1       #vamos creando los vertices del vector
+                li      $t8, 79
+                sb $t8, 1($t1)
+
+
+                sltu            $t8,$t8,1
+                li $t8, 32
+                sb $t8, 2($t1)
+
+
+                sltu            $t8,$t8,1
+                li $t8, 76
+                sb $t8, 3($t1)
+
+
+                sltu            $t8,$t8,1       #una vez hecho esto trabajmos por filas
+                li $t8, 65
+                sb $t8, 4($t1)
+                sra             $t8,$t8,1
+        perfectivo:
+                li $t8, 32
+                sb $t8, 5($t1)
+
+
+                sra             $t8,$t8,1
+                li $t8, 80
+                sb $t8, 6($t1)
+
+
+                sra             $t8,$t8,1
+                li $t8, 79
+                sb $t8, 7($t1)
+                sra             $t8,$t8,1
+                                                #y ahora por columnas
+                li $t8, 78
+                sb $t8, 8($t1)
+        adaptativo:
+                srlv             $t8,$t8,1
+                li $t8, 69
+                sb $t8, 9($t1)
+
+
+                srlv             $t8,$t8,1
+                li $t8, 83
+                sb $t8, 10($t1)
+
+
+                srlv             $t8,$t8,1
+                li $t8, 32
+                sb $t8, 11($t1)
+
+
+                srlv             $t8,$t8,1
+                                                #comparamos que todas los cuadrados este uniformes
+                beq                $t8, $zero, perfectivo        # if $t8 != $zero then perfectivo
+
+                li $t8, 77
+                sb $t8, 12($t1)
+                ble                $t8, $zero, adaptativo        # if $t8 <= $zero then adaptativo
+                li $t8, 65
+                sb $t8, 13($t1)
+                and     $t8,$t8,0       #comparamos las escalas
+
+                li $t8, 83
+                sb $t8, 14($t1)
+                li $t8, 0
+                sb $t8, 15($t1)
+                li $v0, 4
+                la $a0, string1
+                syscall
+                li                $a0, 10                # $a0 = 10
+                li                $v0, 11                # $v0 = 11
+                syscall
+                jal                $ra                                # jump to $ra  and save position to $ra
+
+main:
+        la $t0, string1
+        la                $a0, string                #
+        li                $v0, 4                # $v0 = 4
+        syscall
+        li                $v0, 5                # $v0 = 5
+        syscall
+        move         $a0, $v0                # $a0 = $v0
+        jal n_queen
+        li                $v0, 10                # $v0 = 10
+        syscall
